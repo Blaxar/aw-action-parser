@@ -1060,3 +1060,98 @@ test('create seq qhappyf', () => {
         ],
     });
 });
+
+// Shear Tests
+
+test('create shear 5', () => {
+    expect(parser.parse('create shear 5')).toStrictEqual({
+        create: [
+            {
+                commandType: 'shear',
+                axes: {
+                    x1: 5,
+                    y1: 0,
+                    z1: 0,
+                    x2: 0,
+                    y2: 0,
+                    z2: 0,
+                },
+            },
+        ],
+    });
+});
+
+test('create shear 5 0 5', () => {
+    expect(parser.parse('create shear 5 0 5')).toStrictEqual({
+        create: [
+            {
+                commandType: 'shear',
+                axes: {
+                    x1: 5,
+                    y1: 0,
+                    z1: 5,
+                    x2: 0,
+                    y2: 0,
+                    z2: 0,
+                },
+            },
+        ],
+    });
+});
+
+test('create shear 0 0 -5 1 .5 5', () => {
+    expect(parser.parse('create shear 0 0 -5 1 .5 5')).toStrictEqual({
+        create: [
+            {
+                commandType: 'shear',
+                axes: {
+                    x1: 0,
+                    y1: 0,
+                    z1: -5,
+                    x2: 1,
+                    y2: .5,
+                    z2: 5,
+                },
+            },
+        ],
+    });
+});
+
+// Named shear
+test('create shear 0 0 -5 1 .5 5 name=test', () => {
+    expect(parser.parse('create shear 0 0 -5 1 .5 5 name=test')).toStrictEqual({
+        create: [
+            {
+                commandType: 'shear',
+                axes: {
+                    x1: 0,
+                    y1: 0,
+                    z1: -5,
+                    x2: 1,
+                    y2: .5,
+                    z2: 5,
+                },
+                targetName: 'test',
+            },
+        ],
+    });
+});
+
+// We only care about the first 6 numbers
+test('create shear 0 0 -5 1 .5 5 1337', () => {
+    expect(parser.parse('create shear 0 0 -5 1 .5 5')).toStrictEqual({
+        create: [
+            {
+                commandType: 'shear',
+                axes: {
+                    x1: 0,
+                    y1: 0,
+                    z1: -5,
+                    x2: 1,
+                    y2: .5,
+                    z2: 5,
+                },
+            },
+        ],
+    });
+});

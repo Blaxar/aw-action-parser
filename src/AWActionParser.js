@@ -31,6 +31,7 @@ ActionString {
             | MoveCommand
             | RotateCommand
             | ScaleCommand
+            | ShearCommand
             | LightCommand
             | NoiseCommand
             | OpacityCommand
@@ -177,6 +178,12 @@ ActionString {
                  | waitParameter
                  | nameParameter
   ScaleFactor = signedFloat+
+
+  // Shear command
+  ShearCommand = MultiArgumentCommand<caseInsensitive<"shear">, ShearArgument>
+  ShearArgument = ShearFactor
+                 | nameParameter
+  ShearFactor = signedFloat+
 
   // Corona command
   CoronaCommand = MultiArgumentCommand<caseInsensitive<"corona">, CoronaArgument>
@@ -748,6 +755,16 @@ class AWActionParser {
             },
             ScaleFactor(coordinates) {
                 return ['factor', resolveIncompleteScaleCoordinates(coordinates.children.map(c => c.parse()))];
+            },
+            ShearFactor(factors) {
+                const values = factors.children.map(c => {
+                    const v = parseFloat(c.parse());
+                    return isNaN(v) ? 0 : Math.max(-5.0, Math.min(5.0, v));
+                });
+
+                const [x1 = 0, y1 = 0, z1 = 0, x2 = 0, y2 = 0, z2 = 0] = values;
+
+                return ['axes', { x1, y1, z1, x2, y2, z2 }];
             },
             WarpCommand(commandName, coordinates) {
                 const wCoords = coordinates.parse();
