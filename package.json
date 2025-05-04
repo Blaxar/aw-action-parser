@@ -1,6 +1,6 @@
 {
-  "name": "@_nekohime_/aw-action-parser",
-  "version": "1.1.12",
+  "name": "@blaxar/aw-action-parser",
+  "version": "1.1.13",
   "description": "A JavaScript parser for ActiveWorlds object action strings",
   "main": "src/AWActionParser.js",
   "type": "module",
@@ -18,13 +18,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nekohime/aw-action-parser.git"
+    "url": "git+https://github.com/Blaxar/aw-action-parser.git"
   },
-  "author": "Nekohime",
+  "author": "Blaxar",
   "upstream_author": "David Guerrero <heldroe@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Nekohime/aw-action-parser/issues"
+    "url": "https://github.com/Blaxar/aw-action-parser/issues"
   },
-  "homepage": "https://github.com/Nekohime/aw-action-parser#readme"
+  "homepage": "https://github.com/Blaxar/aw-action-parser#readme"
 }
