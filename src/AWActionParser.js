@@ -90,7 +90,7 @@ ActionString {
   namedURLParameter<paramName, paramSyntax> = paramName "=" paramSyntax
 
   // Name parameter
-  nameParameter = namedParameter<"name", objectName>
+  nameParameter = namedParameter<caseInsensitive<"name">, objectName>
   nameArgument = objectName
   objectName = (alnum | "_" | "-")+
 
@@ -125,10 +125,10 @@ ActionString {
 
   // Color command
   ColorCommand  = MultiArgumentCommand<caseInsensitive<"color">, ColorArgument>
-  ColorArgument = nameParameter | colorArgument
+  ColorArgument = nameParameter | tintArgument | colorArgument
   colorArgument = colorName
-  colorName     = colorcode
-  colorcode     = alnum+
+  colorName     = "#" | alnum+
+  tintArgument = caseInsensitive<"tint">
 
   // Sound command
   SoundCommand    = MultiArgumentCommand<caseInsensitive<"sound">, SoundArgument>
@@ -709,7 +709,7 @@ class AWActionParser {
                 return ['targetName', name.parse()[1].toLowerCase()];
             },
             boolean(boolean) {
-                const bool = boolean.parse();
+                const bool = boolean.parse().toLowerCase();
                 if (bool == 'on' || bool == 'true' || bool == 'yes') {
                     return true;
                 } else if (bool == 'off' || bool == 'false' || bool == 'no') {
@@ -728,6 +728,9 @@ class AWActionParser {
                 if (color.parse()) {
                     return ['color', color.parse()];
                 }
+            },
+            tintArgument(tint) {
+                return ['tint', tint.parse().toLowerCase() === 'tint'];
             },
             fxType(fx) {
                 return fx.parse().toLowerCase();

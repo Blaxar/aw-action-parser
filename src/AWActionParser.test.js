@@ -43,6 +43,32 @@ test('create color green', () => {
     });
 });
 
+// color with tint
+
+test('create color tint red', () => {
+    expect(parser.parse('create color TINT red')).toStrictEqual({
+        create: [
+            {
+                commandType: 'color',
+                color: {r: 255, g: 0, b: 0},
+                tint: true,
+            },
+        ],
+    });
+});
+
+test('create color red tint', () => {
+    expect(parser.parse('create color red tint')).toStrictEqual({
+        create: [
+            {
+                commandType: 'color',
+                color: {r: 255, g: 0, b: 0},
+                tint: true,
+            },
+        ],
+    });
+});
+
 test('whitespace and semicolons do not matter', () => {
     expect(parser.parse('create   color        abcdef;;;;;;')).toStrictEqual({
         create: [
@@ -620,13 +646,25 @@ test('create specular on target name with tag and shininess', () => {
     });
 });
 
-
-test('create picture', () => {
+// picture with url
+test('create picture http://www.example.com/sample.jpg', () => {
     expect(parser.parse('create picture http://www.example.com/sample.jpg')).toStrictEqual({
         create: [
             {
                 commandType: 'picture',
                 resource: 'http://www.example.com/sample.jpg',
+            },
+        ],
+    });
+});
+
+// picture with filename
+test('create picture sample.jpg', () => {
+    expect(parser.parse('create picture sample.jpg')).toStrictEqual({
+        create: [
+            {
+                commandType: 'picture',
+                resource: 'sample.jpg',
             },
         ],
     });
